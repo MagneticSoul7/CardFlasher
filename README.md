@@ -39,7 +39,7 @@ TBA - To Be Added.
 
 ## User Story - TBA (To Be Added)
 
-AS A USER in the U.S.A., 
+AS A USER, 
 <br>
 <br>
 I WANT a website that.... ,
@@ -49,7 +49,17 @@ SO THAT I can....
 
 ## Acceptance Criteria - TBA (To Be Added)
 
-TBA - To Be Added.
+1. **Criteria 1**
+
+   - **Given**: 
+   - **When**: 
+   - **Then**: 
+
+2. **Criteria 2**
+
+   - **Given**: 
+   - **When**: 
+   - **Then**: 
 
 ## Installation 
 
