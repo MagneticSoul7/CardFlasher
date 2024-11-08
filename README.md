@@ -1,11 +1,11 @@
 # Deckster (working title - may be changed)
-(An app for blackjack and other games.)
+An app for blackjack and other games.
 
-## Description
+## Description - TBA
 
+TBA - To Be Added. 
 
-
-## Technologies Used
+## Technologies Used - TBA
 
 |        |  | 
 | ------------- |:-------------:| 
@@ -16,9 +16,9 @@
 | VS Code       |  |   
 | Git           |  |  
 | Github        |  |
-|               |  |
-|               |  |
-|               |  |
+|   TBA         |  |
+|   TBA         |  |
+|   TBA         |  |
 
 
 ## Table of Contents: 
@@ -37,7 +37,7 @@
 12. Author Info <br>
 13. Deployed Link <br>
 
-## User Story
+## User Story - TBA (To Be Added)
 
 AS A USER in the U.S.A., 
 <br>
@@ -47,21 +47,21 @@ I WANT a website that.... ,
 <br>
 SO THAT I can....
 
-## Acceptance Criteria
+## Acceptance Criteria - TBA (To Be Added)
 
-
+TBA - To Be Added.
 
 ## Installation 
 
 N/A
 
-## Usage
+## Usage - TBA
 
 To use this website,.... 
 
-## Wireframe
+## Wireframe - TBA
 
-
+TBA - To Be Added. 
 
 ## Contributors
 
@@ -73,12 +73,13 @@ To use this website,....
 
 MIT License.
 
-## Author Info
+## Author Info - TBA
 
 |        |  | 
 | ------------- |:-------------:|   
 | Github    | https://github.com/MagneticSoul7/Deckster |   
 
-## Deployed Link 
+## Deployed Link - TBA
 
+TBA - To Be Added. 
 
