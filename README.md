@@ -1,4 +1,5 @@
 # CardFlasher
+Online Flash card generator for studying. 
 
 ## Description - TBA
 
