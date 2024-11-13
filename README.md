@@ -1,5 +1,4 @@
-# Deckster (working title - may be changed)
-An app for blackjack and other games.
+# CardFlasher
 
 ## Description - TBA
 
@@ -75,19 +74,16 @@ TBA - To Be Added.
 
 ## Contributors
 
-* Heather Serrano (magneticsoul7) https://github.com/MagneticSoul7 <br>
-* Alexander Davis (Redwolf917) https://github.com/Redwolf917 <br>
-* Michael Isaac Isom (    ) https://github.com/        <br> 
+* Heather Serrano (magneticsoul7) https://github.com/MagneticSoul7 <br> 
+* Alexander Davis (Redwolf917) https://github.com/Redwolf917 <br> 
+* Michael Isaac Isom (Michael-Isom) https://github.com/Michael-Isom <br> 
 
 ## License
 
 MIT License.
 
-## Author Info - TBA
+## Author Info??
 
-|        |  | 
-| ------------- |:-------------:|   
-| Github    | https://github.com/MagneticSoul7/Deckster |   
 
 ## Deployed Link - TBA
 
