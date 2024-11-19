@@ -1,1 +1,56 @@
-.DS_store
+# Node.js
+/node_modules
+/server/node_modules
+/client/node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+dist/
+build/
+
+# React
+/client/build
+/client/.cache
+/client/coverage
+
+# Environment Variables
+.env
+/server/.env
+/client/.env
+
+# System Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.Trash-*
+.AppleDouble
+.LSOverride
+
+# Editor/IDE
+.vscode/
+.idea/
+*.code-workspace
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# Coverage reports
+coverage/
+
+# Temporary or miscellaneous files
+*.bak
+*.tmp
+*.temp
+*.seed
+*.pid
+*.pid.lock
+
+# Docker (if used)
+docker-compose.override.yml
