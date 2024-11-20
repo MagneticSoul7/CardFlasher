@@ -1,14 +1,13 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
+  "description": "Backend for the CardFlasher app",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "apollo-server": "^3.13.0",
     "cors": "^2.8.5",
@@ -17,5 +16,10 @@
     "express-graphql": "^0.12.0",
     "graphql": "^16.9.0",
     "mongoose": "^8.8.2"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "author": "",
+  "license": "ISC"
 }
