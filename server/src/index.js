@@ -8,6 +8,11 @@ const { authenticate } = require('./utils/auth');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const connectDB = require('./utils/db');
+
+// Connect to MongoDB
+connectDB();
+
 
 // Apollo Server Setup
 const server = new ApolloServer({
