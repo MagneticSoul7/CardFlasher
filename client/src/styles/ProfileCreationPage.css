@@ -1,0 +1,55 @@
+.profile-creation-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.profile-creation-page h2 {
+  margin-bottom: 1rem;
+}
+
+.profile-creation-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px;
+}
+
+.profile-creation-page input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.profile-creation-page button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profile-creation-page button:hover {
+  background-color: #45a049;
+}
+
+.back-to-login {
+  margin-top: 1rem;
+}
+
+.back-to-login a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: #2196f3;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.back-to-login a:hover {
+  color: #1976d2;
+}

@@ -1,70 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import { GET_USER_DECKS } from './queries'; // Assuming you have a query to fetch user decks
+import React from 'react';
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_DECKS } from '../graphql/queries';
+import { DELETE_DECK } from '../graphql/mutations';
+import { Link } from 'react-router-dom';
+import '../styles/HomePage.css';
 
 const HomePage = () => {
-  const history = useHistory();
-  const { loading, error, data } = useQuery(GET_USER_DECKS); // Query to get all decks of the current user
+  const { loading, error, data, refetch } = useQuery(GET_DECKS);
+  const [deleteDeck] = useMutation(DELETE_DECK);
 
-  // Handle navigating to deck view page
-  const handleDeckClick = (deckId) => {
-    history.push({
-      pathname: `/deck/${deckId}`,
-      state: { id: deckId }, // Passing deck ID through location state
-    });
-  };
-
-  // Handle creating a new deck
-  const handleCreateDeck = () => {
-    history.push('/create-deck'); // Redirect to deck creation page
+  const handleRemove = async (deckId) => {
+    try {
+      const response = await deleteDeck({ variables: { deckId } });
+      console.log('Deleted Deck:', response.data.deleteDeck);
+      refetch(); // Refresh the deck list after deletion
+    } catch (err) {
+      console.error('Error deleting deck:', err);
+    }
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) {
+    console.error('Error loading decks:', error);
+    return <div>Error loading decks!</div>;
+  }
+
+  const decks = data.getDecks || [];
 
   return (
     <div className="home-page">
-      <div className="navbar">
-        {/* You can create a navbar component or include it directly */}
-        <h2>Welcome to Flashcards!</h2>
-        <nav>
-          <button onClick={() => history.push('/home')}>Home</button>
-          <button onClick={() => history.push('/contact')}>Contact</button>
-          <button onClick={() => history.push('/about')}>About</button>
-        </nav>
-      </div>
-
-      <div className="deck-list">
-        <h3>Your Decks</h3>
-        {/* If the user has no decks */}
-        {data.getUserDecks.length === 0 ? (
-          <p>No Decks Yet</p>
+      <h2>Welcome to CardFlasher!</h2>
+      <div className="decks-container">
+        {decks.length === 0 ? (
+          <p className="no-decks">No decks yet. Create one to get started!</p>
         ) : (
-          <ul>
-            {data.getUserDecks.map((deck) => (
-              <li key={deck.id} className="deck-item">
-                <span
-                  className="deck-title"
-                  onClick={() => handleDeckClick(deck.id)} // Navigate to the deck page
+          decks.map((deck) => (
+            <div key={deck._id} className="deck-item">
+              <Link to={`/view-deck/${deck._id}`} className="deck-title">
+                {deck.title}
+              </Link>
+              <div className="deck-actions">
+                <button className="edit-button">
+                  <Link to={`/create-deck?deckId=${deck._id}`}>Edit</Link>
+                </button>
+                <button
+                  className="delete-button"
+                  onClick={() => handleRemove(deck._id)}
                 >
-                  {deck.name}
-                </span>
-                <div className="deck-actions">
-                  {/* Button to edit a deck */}
-                  <button onClick={() => history.push(`/edit-deck/${deck.id}`)}>Edit</button>
-                  {/* Button to remove a deck */}
-                  <button>Remove</button>
-                </div>
-              </li>
-            ))}
-          </ul>
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))
         )}
       </div>
-
-      <div className="create-deck">
-        <button onClick={handleCreateDeck}>Create New Deck of Flashcards</button>
-      </div>
+      <Link to="/create-deck">
+        <button className="create-deck-button">Create New Deck</button>
+      </Link>
     </div>
   );
 };

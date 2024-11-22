@@ -1,88 +1,43 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'; // For navigation
-import { loginUser } from '../graphql/queries'; // Assuming you have a GraphQL query or API call for login
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../graphql/mutations';
+import '../styles/Login.css';
 
-const Login = () => {
-  const [username, setUsername] = useState(''); // State for username
-  const [password, setPassword] = useState(''); // State for password
-  const [error, setError] = useState(''); // State for error message
-  const history = useHistory();
+const Login = ({ onLogin }) => {
+  const [formState, setFormState] = useState({ username: '', password: '' });
+  const [login] = useMutation(LOGIN_USER);
 
-  // Handle username input change
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-
-  // Handle password input change
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  // Handle form submit (login)
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!username || !password) {
-      setError('Username and password are required');
-      return;
-    }
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const user = await loginUser(username, password); // API call to authenticate the user
-      if (user) {
-        // Redirect to the home page after successful login
-        history.push('/home');
-      } else {
-        setError('Invalid username or password');
-      }
-    } catch (error) {
-      setError('An error occurred during login');
+      const { data } = await login({ variables: { ...formState } });
+      localStorage.setItem('token', data.login.token);
+      onLogin();
+    } catch (err) {
+      console.error(err);
     }
-  };
-
-  // Redirect to profile creation page
-  const handleCreateProfileRedirect = () => {
-    history.push('/create-profile');
   };
 
   return (
-    <div className="login-page">
+    <div className="login">
       <h2>Login</h2>
-      
-      {/* Error message */}
-      {error && <div className="error-message">{error}</div>}
-      
-      <form onSubmit={handleSubmit} className="login-form">
-        <div className="input-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-
-        <button type="submit" className="submit-button">Login</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={formState.username}
+          onChange={(e) => setFormState({ ...formState, username: e.target.value })}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={formState.password}
+          onChange={(e) => setFormState({ ...formState, password: e.target.value })}
+          required
+        />
+        <button type="submit">Login</button>
       </form>
-
-      <div className="redirect">
-        <p>Don't have a profile? <span onClick={handleCreateProfileRedirect} className="create-profile-link">Create one now</span></p>
-      </div>
     </div>
   );
 };

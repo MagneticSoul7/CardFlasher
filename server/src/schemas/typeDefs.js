@@ -37,7 +37,7 @@ const typeDefs = gql`
     createUser(username: String!, password: String!): Auth
     createDeck(title: String!): Deck
     addCard(deckId: ID!, front: String!, back: String!): Deck
-    deleteDeck(deckId: ID!): Boolean
+    deleteDeck(deckId: ID!): Deck
   }
 `;
 

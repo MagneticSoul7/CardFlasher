@@ -1,88 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_DECK } from './queries'; // Import the query to fetch deck data
+import { GET_DECK } from '../graphql/queries';
+import { shuffleArray } from '../utils/shuffle';
+import { useParams } from 'react-router-dom';
+import '../styles/DeckPage.css';
 
 const DeckViewPage = () => {
-  const { state } = useLocation(); // Get deck info passed via navigation (from DeckList or elsewhere)
-  const { id } = state; // Assuming the deck ID is passed through navigation state
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [shuffledDeck, setShuffledDeck] = useState([]);
-  const { loading, error, data } = useQuery(GET_DECK, { variables: { id } });
-  const history = useHistory();
+  const { deckId } = useParams();
+  const { loading, error, data } = useQuery(GET_DECK, { variables: { deckId } });
+  const [shuffledCards, setShuffledCards] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    if (data) {
-      // Shuffle the deck when it is fetched
-      const shuffledCards = shuffleDeck(data.getDeck.cards);
-      setShuffledDeck(shuffledCards);
+  React.useEffect(() => {
+    if (data && data.getDeck) {
+      const cardsWithFlipped = data.getDeck.cards.map((card) => ({
+        ...card,
+        flipped: false, // Ensure every card has a `flipped` property
+      }));
+      setShuffledCards(shuffleArray(cardsWithFlipped));
     }
   }, [data]);
 
-  const shuffleDeck = (cards) => {
-    const shuffled = [...cards];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
+  if (loading) return <div>Loading...</div>;
+  if (error) {
+    console.error('Error loading deck:', error);
+    return <div>Error loading deck!</div>;
+  }
+
+  const handleShuffle = () => {
+    setShuffledCards(shuffleArray(shuffledCards));
+    setCurrentIndex(0);
   };
 
   const handleNext = () => {
-    if (currentCardIndex < shuffledDeck.length - 1) {
-      setCurrentCardIndex(currentCardIndex + 1);
+    if (currentIndex < shuffledCards.length - 1) {
+      setCurrentIndex(currentIndex + 1);
     }
   };
 
   const handlePrevious = () => {
-    if (currentCardIndex > 0) {
-      setCurrentCardIndex(currentCardIndex - 1);
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
     }
   };
 
-  const handleShuffle = () => {
-    const shuffledCards = shuffleDeck(data.getDeck.cards);
-    setShuffledDeck(shuffledCards);
-    setCurrentCardIndex(0); // Reset to the first card after shuffling
-  };
-
   const handleFlip = () => {
-    // You can add logic here if you want to manage the "flipping" behavior
-    // For now, it's assumed to be handled automatically when the card text changes
+    const updatedCards = [...shuffledCards];
+    updatedCards[currentIndex].flipped = !updatedCards[currentIndex].flipped;
+    setShuffledCards(updatedCards);
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  const currentCard = shuffledDeck[currentCardIndex];
+  const currentCard = shuffledCards[currentIndex];
 
   return (
     <div className="deck-view-page">
-      <h1>{data.getDeck.name}</h1> {/* Display deck name */}
-
+      <h2>{data.getDeck.title}</h2>
       <div className="card-container">
-        <div className="card">
-          <h2>{currentCard.front}</h2> {/* Display the front of the card */}
-        </div>
-
-        <div className="card-buttons">
-          <button onClick={handlePrevious} disabled={currentCardIndex === 0}>
-            Previous
-          </button>
-          <button onClick={handleFlip}>Flip</button>
-          <button
-            onClick={handleNext}
-            disabled={currentCardIndex === shuffledDeck.length - 1}
-          >
-            Next
-          </button>
-        </div>
+        {currentCard ? (currentCard.flipped ? currentCard.back : currentCard.front) : 'No cards available'}
       </div>
-
-      <div className="deck-controls">
-        <button onClick={handleShuffle}>Shuffle</button>
-        <button onClick={() => history.push('/home')}>Return to Home</button>
+      <div className="controls">
+        {currentIndex > 0 && <button onClick={handlePrevious}>Previous</button>}
+        <button onClick={handleFlip}>Flip</button>
+        {currentIndex < shuffledCards.length - 1 && <button onClick={handleNext}>Next</button>}
       </div>
+      <button onClick={handleShuffle} className="shuffle-button">Shuffle</button>
     </div>
   );
 };

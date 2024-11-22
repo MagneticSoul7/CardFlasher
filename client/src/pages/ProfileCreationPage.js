@@ -1,70 +1,47 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom'; // to handle redirection after form submission
-import { useMutation } from '@apollo/client'; // Assuming you use GraphQL for mutations
-import { CREATE_PROFILE_MUTATION } from '../mutations'; // Import the mutation query to create a profile
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../graphql/mutations';
+import { useNavigate, Link } from 'react-router-dom';
+import '../styles/ProfileCreationPage.css';
 
 const ProfileCreationPage = () => {
-  const history = useHistory();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [createProfile] = useMutation(CREATE_PROFILE_MUTATION);
+  const [formState, setFormState] = useState({ username: '', password: '' });
+  const [createUser] = useMutation(CREATE_USER);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!username || !password) {
-      setError('Both username and password are required');
-      return;
-    }
-    
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      // Call the mutation to create the profile
-      await createProfile({
-        variables: { username, password },
-      });
-      // Redirect to login page after profile is created
-      history.push('/login');
+      await createUser({ variables: { ...formState } });
+      navigate('/'); // Redirect to login page after successful profile creation
     } catch (err) {
-      setError('Failed to create profile. Please try again.');
+      console.error(err);
     }
   };
 
   return (
-    <div className="profile-creation-container">
-      <h2>Create Your Profile</h2>
+    <div className="profile-creation-page">
+      <h2>Create Profile</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-
-        {error && <p className="error-message">{error}</p>}
-
+        <input
+          type="text"
+          placeholder="Username"
+          value={formState.username}
+          onChange={(e) => setFormState({ ...formState, username: e.target.value })}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={formState.password}
+          onChange={(e) => setFormState({ ...formState, password: e.target.value })}
+          required
+        />
         <button type="submit">Create Profile</button>
       </form>
-      
-      <p>
-        Already have an account? <a href="/login">Login here</a>
-      </p>
+      <div className="back-to-login">
+        <Link to="/">Back to Login</Link>
+      </div>
     </div>
   );
 };

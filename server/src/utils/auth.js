@@ -1,25 +1,20 @@
 const jwt = require('jsonwebtoken');
 
-const secret = process.env.JWT_SECRET || 'supersecretkey';
-const expiration = '2h';
+const authMiddleware = (req) => {
+  const token = req.headers.authorization?.split(' ')[1]; // Extract token
+  if (!token) {
+    console.error('No token provided');
+    return null;
+  }
 
-module.exports = {
-  // Function to sign a token for a user
-  signToken: function ({ _id, username }) {
-    const payload = { _id, username };
-    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-  },
-
-  // Middleware to verify JWT and attach user to context
-  authenticate: function (token) {
-    if (!token) return null;
-
-    try {
-      const decoded = jwt.verify(token.replace('Bearer ', ''), secret);
-      return decoded.data; // Return user data (e.g., _id, username)
-    } catch (err) {
-      console.error('Invalid token:', err.message);
-      return null;
-    }
-  },
+  try {
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+    console.log('Authenticated user:', user);
+    return user;
+  } catch (err) {
+    console.error('Invalid token:', err.message);
+    return null;
+  }
 };
+
+module.exports = authMiddleware;

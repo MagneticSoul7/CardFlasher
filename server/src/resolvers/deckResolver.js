@@ -27,15 +27,22 @@ module.exports = {
       return newDeck;
     },
     deleteDeck: async (_, { deckId }, { user }) => {
+      console.log('Delete Deck Resolver Called');
+      console.log('deckId:', deckId);
+      console.log('user:', user);
+
       if (!user) {
+        console.error('Not authenticated');
         throw new Error('Not authenticated');
       }
-      const deletedDeck = await Deck.findOneAndDelete({ _id: deckId, owner: user._id });
-      if (deletedDeck) {
-        await User.findByIdAndUpdate(user._id, { $pull: { decks: deckId } });
-        await Card.deleteMany({ deck: deckId }); // Clean up cards in the deck
+      const deck = await Deck.findOneAndDelete({ _id: deckId, owner: user._id });
+      if (!deck) {
+        console.error('Deck not found or you do not have permission to delete it.');
+        throw new Error('Deck not found or you do not have permission to delete it.');
       }
-      return !!deletedDeck;
+      
+      console.log('Deleted Deck:', deck);
+      return deck;
     },
   },
 };

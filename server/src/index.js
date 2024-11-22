@@ -1,43 +1,33 @@
 require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-const mongoose = require('mongoose');
+const connectDB = require('./utils/db');
 const typeDefs = require('./schemas/typeDefs');
 const resolvers = require('./resolvers');
-const { authenticate } = require('./utils/auth');
+const authMiddleware = require('./utils/auth');
 
+// Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 4000;
-const connectDB = require('./utils/db');
 
 // Connect to MongoDB
-connectDB();
+connectDB().then(() => console.log('MongoDB connected successfully'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
-
-// Apollo Server Setup
+// Set up Apollo Server
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
-    const token = req.headers.authorization || '';
-    const user = authenticate(token);
+    const user = authMiddleware(req); // Attach user to context
     return { user };
   },
 });
 
-// Apply Apollo middleware
+// Start Apollo Server
 server.start().then(() => {
   server.applyMiddleware({ app });
-});
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/card-flasher', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected successfully'))
-  .catch((err) => console.error(err));
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}${server.graphqlPath}`);
+  app.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  });
 });

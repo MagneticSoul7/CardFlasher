@@ -1,64 +1,42 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../graphql/mutations';
+import '../styles/ProfileCreation.css';
 
-const ProfileCreation = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const history = useHistory();
+const ProfileCreation = ({ onCreate }) => {
+  const [formState, setFormState] = useState({ username: '', password: '' });
+  const [createUser] = useMutation(CREATE_USER);
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Basic validation to check if fields are filled
-    if (!username || !password) {
-      setError('Both fields are required!');
-      return;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await createUser({ variables: { ...formState } });
+      onCreate();
+    } catch (err) {
+      console.error(err);
     }
-
-    // You can add more validation logic here (e.g., password length, username format, etc.)
-
-    // Simulating saving the profile data (can be replaced with actual API call)
-    const user = { username, password };
-    localStorage.setItem('user', JSON.stringify(user)); // Save the user to localStorage (you can use a backend API here)
-
-    // Redirect the user back to the login page
-    history.push('/login');
   };
 
   return (
     <div className="profile-creation">
-      <h2>Create New Profile</h2>
+      <h2>Create Profile</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit">Create Profile</button>
+        <input
+          type="text"
+          placeholder="Username"
+          value={formState.username}
+          onChange={(e) => setFormState({ ...formState, username: e.target.value })}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={formState.password}
+          onChange={(e) => setFormState({ ...formState, password: e.target.value })}
+          required
+        />
+        <button type="submit">Create</button>
       </form>
-      <p>
-        Already have an account? <a href="/login">Login here</a>
-      </p>
     </div>
   );
 };

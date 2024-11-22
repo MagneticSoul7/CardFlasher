@@ -1,76 +1,47 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from './mutations'; // Assuming you have a mutation to log in the user
+import { LOGIN_USER } from '../graphql/mutations';
+import { useNavigate, Link } from 'react-router-dom';
+import '../styles/LoginPage.css';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const history = useHistory();
+  const [formState, setFormState] = useState({ username: '', password: '' });
+  const [login] = useMutation(LOGIN_USER);
+  const navigate = useNavigate();
 
-  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    onCompleted: (data) => {
-      if (data.login) {
-        // Redirect to home page after successful login
-        history.push('/home');
-      } else {
-        setErrorMessage('Invalid username or password');
-      }
-    },
-    onError: () => {
-      setErrorMessage('An error occurred. Please try again.');
-    },
-  });
-
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-
-    // Clear any previous error message
-    setErrorMessage('');
-
-    // Call the login mutation
-    loginUser({ variables: { username, password } });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await login({ variables: { ...formState } });
+      localStorage.setItem('token', data.login.token);
+      navigate('/home');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <div className="login-page">
       <h2>Login</h2>
-      
-      <form onSubmit={handleLoginSubmit}>
-        <div className="input-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="form-actions">
-          <button type="submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Log In'}
-          </button>
-        </div>
-
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={formState.username}
+          onChange={(e) => setFormState({ ...formState, username: e.target.value })}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={formState.password}
+          onChange={(e) => setFormState({ ...formState, password: e.target.value })}
+          required
+        />
+        <button type="submit">Login</button>
       </form>
-
-      <div className="signup-link">
-        <p>Don't have an account? <button onClick={() => history.push('/create-profile')}>Create one here</button></p>
+      <div className="create-profile-link">
+        <Link to="/create-profile">Create New Profile</Link>
       </div>
     </div>
   );
