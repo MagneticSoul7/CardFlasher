@@ -6,11 +6,6 @@ export const GET_DECKS = gql`
     getDecks {
       _id
       title
-      cards {
-        _id
-        front
-        back
-      }
     }
   }
 `;

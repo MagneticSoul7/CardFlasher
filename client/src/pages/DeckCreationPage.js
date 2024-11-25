@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_DECK, ADD_CARD } from '../graphql/mutations';
+import { GET_DECKS } from '../graphql/queries';
 import { useNavigate } from 'react-router-dom';
 import '../styles/DeckCreationPage.css';
 
 const DeckCreationPage = () => {
   const [title, setTitle] = useState('');
   const [cards, setCards] = useState([{ front: '', back: '' }]);
-  const [createDeck] = useMutation(CREATE_DECK);
+  const [createDeck] = useMutation(CREATE_DECK, {
+    update(cache, { data: { createDeck } }) {
+      const existingDecks = cache.readQuery({ query: GET_DECKS });
+      if (existingDecks) {
+        cache.writeQuery({
+          query: GET_DECKS,
+          data: {
+            getDecks: [...existingDecks.getDecks, createDeck],
+          },
+        });
+      }
+    },
+  });
   const [addCard] = useMutation(ADD_CARD);
   const navigate = useNavigate();
 
@@ -31,9 +44,11 @@ const DeckCreationPage = () => {
         await addCard({ variables: { deckId, front: card.front, back: card.back } });
       }
 
-      navigate('/home');
+      console.log('Deck and cards created successfully');
+      navigate('/home'); // Redirect to the home page
     } catch (err) {
-      console.error(err);
+      console.error('Error creating deck or cards:', err);
+      alert('Failed to create the deck. Please try again.');
     }
   };
 
@@ -61,6 +76,7 @@ const DeckCreationPage = () => {
                 setCards(newCards);
               }}
               required
+              className="card-input"
             />
             <input
               type="text"
@@ -72,6 +88,7 @@ const DeckCreationPage = () => {
                 setCards(newCards);
               }}
               required
+              className="card-input"
             />
           </div>
         ))}
@@ -82,7 +99,9 @@ const DeckCreationPage = () => {
           <button type="button" onClick={handleRemoveCard} className="remove-card-button">
             Remove Card
           </button>
-          <button type="submit" className="finish-button">Finish</button>
+          <button type="submit" className="finish-button">
+            Finish
+          </button>
         </div>
       </form>
     </div>

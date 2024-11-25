@@ -1,30 +1,61 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .navbar-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .navbar-links {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .navbar-link {
-    text-decoration: none;
-    color: white;
-    font-size: 1rem;
-    transition: color 0.3s;
-  }
-  
-  .navbar-link:hover {
-    color: #dcedc8;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #0B0C10; /* Jet Black */
+  color: #F5F5F5; /* Ivory White */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #F5F5F5; /* Ivory White */
+}
+
+.navbar-logo {
+  display: flex; /* Use flexbox for precise alignment */
+  justify-content: center;
+  align-items: center; /* Center the logo vertically */
+  flex-grow: 1; /* Allow the logo to take up space between navbar elements */
+  padding: 0; /* Remove padding for better alignment */
+  margin: 0; /* Remove margin for better alignment */
+}
+.navbar-logo img {
+  height: 200px;
+  cursor: pointer;
+  margin: auto; /* Center automatically within its container */
+  vertical-align: middle; /* Ensure alignment is centered within the flexbox */
+  padding: 0; /* Removes any default padding */
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: #F5F5F5; /* Ivory White */
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.navbar-link:hover {
+  color: #A67C00; /* Burnished Gold */
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #F5F5F5; /* Ivory White */
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  color: #8B0000; /* Crimson Red */
+}

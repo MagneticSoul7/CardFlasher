@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DeckCard from './DeckCard';
-import '../styles/DeckPage.css';
+import '../styles/DeckViewPage.css';
 
 const DeckPage = ({ deck }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

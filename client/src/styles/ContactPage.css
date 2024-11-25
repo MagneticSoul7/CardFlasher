@@ -1,0 +1,25 @@
+.contact-page {
+  text-align: center;
+  padding: 2rem;
+  background-color: #1C1E22; /* Charcoal Gray */
+  color: #F5F5F5; /* Ivory White */
+}
+
+.contact-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-page p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.contact-page a {
+  color: #4682B4; /* Steel Blue */
+}
+
+.contact-page a:hover {
+  color: #A67C00; /* Burnished Gold */
+}

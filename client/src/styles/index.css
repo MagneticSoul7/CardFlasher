@@ -1,26 +1,20 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-}
-
-h1, h2, h3 {
-  margin: 0;
-  padding: 0;
-}
-
-button {
-  cursor: pointer;
+  background-color: #0B0C10; /* Jet Black */
+  color: #F5F5F5; /* Ivory White */
 }
 
 a {
   text-decoration: none;
-  color: inherit;
+  color: #4682B4; /* Steel Blue */
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+a:hover {
+  color: #A67C00; /* Burnished Gold */
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
 }

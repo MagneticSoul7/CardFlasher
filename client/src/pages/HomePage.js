@@ -11,8 +11,8 @@ const HomePage = () => {
 
   const handleRemove = async (deckId) => {
     try {
-      const response = await deleteDeck({ variables: { deckId } });
-      console.log('Deleted Deck:', response.data.deleteDeck);
+      const { data } = await deleteDeck({ variables: { deckId } });
+      console.log('Deleted Deck:', data.deleteDeck);
       refetch(); // Refresh the deck list after deletion
     } catch (err) {
       console.error('Error deleting deck:', err);
@@ -29,7 +29,7 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <h2>Welcome to CardFlasher!</h2>
+      {/* Left side: Decks list */}
       <div className="decks-container">
         {decks.length === 0 ? (
           <p className="no-decks">No decks yet. Create one to get started!</p>
@@ -39,24 +39,23 @@ const HomePage = () => {
               <Link to={`/view-deck/${deck._id}`} className="deck-title">
                 {deck.title}
               </Link>
-              <div className="deck-actions">
-                <button className="edit-button">
-                  <Link to={`/create-deck?deckId=${deck._id}`}>Edit</Link>
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleRemove(deck._id)}
-                >
-                  Remove
-                </button>
-              </div>
+              <button
+                className="delete-button"
+                onClick={() => handleRemove(deck._id)}
+              >
+                Remove
+              </button>
             </div>
           ))
         )}
       </div>
-      <Link to="/create-deck">
-        <button className="create-deck-button">Create New Deck</button>
-      </Link>
+
+      {/* Right side: Create New Deck button */}
+      <div className="create-deck-button-container">
+        <Link to="/create-deck">
+          <button className="create-deck-button">Create New Deck</button>
+        </Link>
+      </div>
     </div>
   );
 };

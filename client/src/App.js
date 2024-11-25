@@ -7,6 +7,8 @@ import HomePage from './pages/HomePage';
 import DeckCreationPage from './pages/DeckCreationPage';
 import DeckViewPage from './pages/DeckViewPage';
 import './styles/App.css';
+import ContactPage from './pages/ContactPage';
+import AboutPage from './pages/AboutPage';
 
 function App() {
   return (
@@ -18,6 +20,10 @@ function App() {
           <Route path="/home" element={<><Navbar /><HomePage /></>} />
           <Route path="/create-deck" element={<><Navbar /><DeckCreationPage /></>} />
           <Route path="/view-deck/:deckId" element={<><Navbar /><DeckViewPage /></>} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<LoginPage />} />
         </Routes>
       </div>
     </Router>

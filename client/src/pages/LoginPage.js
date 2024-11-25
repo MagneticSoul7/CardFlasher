@@ -25,6 +25,7 @@ const LoginPage = () => {
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
+          className="login-input"
           type="text"
           placeholder="Username"
           value={formState.username}
@@ -32,13 +33,14 @@ const LoginPage = () => {
           required
         />
         <input
+          className="login-input"
           type="password"
           placeholder="Password"
           value={formState.password}
           onChange={(e) => setFormState({ ...formState, password: e.target.value })}
           required
         />
-        <button type="submit">Login</button>
+        <button className="login-button" type="submit">Login</button>
       </form>
       <div className="create-profile-link">
         <Link to="/create-profile">Create New Profile</Link>

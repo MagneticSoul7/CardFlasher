@@ -1,69 +1,91 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
+import { useParams, useNavigate } from 'react-router-dom';
 import { GET_DECK } from '../graphql/queries';
 import { shuffleArray } from '../utils/shuffle';
-import { useParams } from 'react-router-dom';
-import '../styles/DeckPage.css';
+import '../styles/DeckViewPage.css';
 
 const DeckViewPage = () => {
   const { deckId } = useParams();
+  const navigate = useNavigate();
   const { loading, error, data } = useQuery(GET_DECK, { variables: { deckId } });
-  const [shuffledCards, setShuffledCards] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  React.useEffect(() => {
-    if (data && data.getDeck) {
-      const cardsWithFlipped = data.getDeck.cards.map((card) => ({
-        ...card,
-        flipped: false, // Ensure every card has a `flipped` property
-      }));
-      setShuffledCards(shuffleArray(cardsWithFlipped));
+  const [cards, setCards] = useState([]);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  // Initialize cards state once data is loaded
+  useEffect(() => {
+    if (data && data.getDeck && data.getDeck.cards) {
+      setCards(data.getDeck.cards);
     }
   }, [data]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading deck...</div>;
   if (error) {
     console.error('Error loading deck:', error);
     return <div>Error loading deck!</div>;
   }
 
   const handleShuffle = () => {
-    setShuffledCards(shuffleArray(shuffledCards));
-    setCurrentIndex(0);
-  };
-
-  const handleNext = () => {
-    if (currentIndex < shuffledCards.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
+    const shuffledCards = shuffleArray(cards);
+    setCards(shuffledCards);
+    setCurrentCardIndex(0);
+    setIsFlipped(false);
   };
 
   const handleFlip = () => {
-    const updatedCards = [...shuffledCards];
-    updatedCards[currentIndex].flipped = !updatedCards[currentIndex].flipped;
-    setShuffledCards(updatedCards);
+    setIsFlipped((prev) => !prev);
   };
 
-  const currentCard = shuffledCards[currentIndex];
+  const handleNext = () => {
+    setIsFlipped(false);
+    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cards.length);
+  };
+
+  const handlePrevious = () => {
+    setIsFlipped(false);
+    setCurrentCardIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
+  };
+
+  const handleDone = () => {
+    navigate('/home');
+  };
 
   return (
     <div className="deck-view-page">
+      <div className="top-bar">
+        <button className="shuffle-button" onClick={handleShuffle}>
+          Shuffle
+        </button>
+        <button className="done-button" onClick={handleDone}>
+          Done
+        </button>
+      </div>
       <h2>{data.getDeck.title}</h2>
       <div className="card-container">
-        {currentCard ? (currentCard.flipped ? currentCard.back : currentCard.front) : 'No cards available'}
+        {cards.length > 0 && (
+          <div className={`card ${isFlipped ? 'flipped' : ''}`}>
+            <div className="card-front">{cards[currentCardIndex].front}</div>
+            <div className="card-back">{cards[currentCardIndex].back}</div>
+          </div>
+        )}
+        <div className="card-controls">
+          {currentCardIndex > 0 && (
+            <button className="previous-button" onClick={handlePrevious}>
+              Previous
+            </button>
+          )}
+          <button className="flip-button" onClick={handleFlip}>
+            Flip
+          </button>
+          {currentCardIndex < cards.length - 1 && (
+            <button className="next-button" onClick={handleNext}>
+              Next
+            </button>
+          )}
+        </div>
       </div>
-      <div className="controls">
-        {currentIndex > 0 && <button onClick={handlePrevious}>Previous</button>}
-        <button onClick={handleFlip}>Flip</button>
-        {currentIndex < shuffledCards.length - 1 && <button onClick={handleNext}>Next</button>}
-      </div>
-      <button onClick={handleShuffle} className="shuffle-button">Shuffle</button>
     </div>
   );
 };

@@ -1,19 +1,19 @@
 .deck-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 200px;
-    border: 2px solid #4caf50;
-    border-radius: 8px;
-    background-color: white;
-    font-size: 1.2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  
-  .deck-card:hover {
-    transform: scale(1.05);
-  }
-  
+  width: 300px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #8B0000; /* Crimson Red */
+  border-radius: 10px;
+  background-color: #1C1E22; /* Charcoal Gray */
+  color: #F5F5F5; /* Ivory White */
+  font-size: 1.5rem;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.deck-card:hover {
+  background-color: #2F4F4F; /* Gunmetal */
+  border-color: #A67C00; /* Burnished Gold */
+}

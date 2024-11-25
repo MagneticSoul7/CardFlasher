@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_DECK, ADD_CARD } from '../graphql/mutations';
-import '../styles/CreateDeck.css';
+import '../styles/CreateDeck.css'; // Ensure the styles are applied
 
 const CreateDeck = ({ onComplete }) => {
   const [title, setTitle] = useState('');
@@ -29,9 +29,9 @@ const CreateDeck = ({ onComplete }) => {
         await addCard({ variables: { deckId, front: card.front, back: card.back } });
       }
 
-      onComplete();
+      onComplete(); // Redirect to home page or refresh decks
     } catch (err) {
-      console.error(err);
+      console.error('Error creating deck:', err);
     }
   };
 
@@ -47,7 +47,7 @@ const CreateDeck = ({ onComplete }) => {
           required
         />
         {cards.map((card, index) => (
-          <div key={index}>
+          <div key={index} className="card-input">
             <input
               type="text"
               placeholder="Front"

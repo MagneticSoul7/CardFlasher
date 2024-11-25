@@ -1,25 +1,74 @@
 .deck-creation-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-  }
-  
-  .deck-title-input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    font-size: 1rem;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .card-creation-container {
-    margin-bottom: 1rem;
-  }
-  
-  .button-container {
-    display: flex;
-    gap: 1rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #1C1E22; /* Charcoal Gray */
+  color: #F5F5F5; /* Ivory White */
+}
+
+h1, h2 {
+  color: #F5F5F5; /* Ivory White */
+}
+
+.deck-title-input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 300px;
+  border: 1px solid #4682B4; /* Steel Blue */
+  border-radius: 5px;
+  background-color: #0B0C10; /* Jet Black */
+  color: #F5F5F5; /* Ivory White */
+}
+
+/* Cards container */
+.cards-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Card entry section */
+.card-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: #2F4F4F; /* Gunmetal */
+  padding: 1rem;
+  border: 1px solid #4682B4; /* Steel Blue */
+  border-radius: 10px;
+}
+
+/* Card input styling */
+.card-input {
+  flex: 1;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid #8B0000; /* Crimson Red */
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #1C1E22; /* Charcoal Gray */
+  color: #F5F5F5; /* Ivory White */
+}
+
+/* Buttons */
+.add-card-button,
+.remove-card-button,
+.finish-button {
+  background-color: #8B0000; /* Crimson Red */
+  color: #F5F5F5; /* Ivory White */
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.add-card-button:hover,
+.remove-card-button:hover,
+.finish-button:hover {
+  background-color: #A67C00; /* Burnished Gold */
+}

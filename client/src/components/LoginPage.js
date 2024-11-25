@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../graphql/mutations';
-import '../styles/Login.css';
+import '../styles/LoginPage.css';
 
 const Login = ({ onLogin }) => {
   const [formState, setFormState] = useState({ username: '', password: '' });
@@ -11,10 +11,12 @@ const Login = ({ onLogin }) => {
     event.preventDefault();
     try {
       const { data } = await login({ variables: { ...formState } });
-      localStorage.setItem('token', data.login.token);
-      onLogin();
+      console.log('Login successful, token received:', data.login.token); // Debugging log
+      localStorage.setItem('token', data.login.token); // Store the token in localStorage
+      onLogin(); // Trigger callback after successful login
     } catch (err) {
-      console.error(err);
+      console.error('Login error:', err.message);
+      alert('Login failed. Please check your credentials and try again.'); // User-friendly error message
     }
   };
 
