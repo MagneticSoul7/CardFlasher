@@ -4,7 +4,7 @@
   "description": "Online Flash card generator for studying.",
   "main": "index.js",
   "scripts": {
-    "install-all": "npm install --prefix server --legacy-peer-deps && npm install --prefix client --legacy-peer-deps",
+    "install-all": "npm install --prefix server && npm install --prefix client",
     "start": "cd server && npm run start",
     "dev": "npm run dev-server & npm run dev-client",
     "start-server": "npm --prefix server start",

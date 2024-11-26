@@ -1,27 +1,28 @@
 const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.JWT_SECRET || "mysecretkey";
 
 const authMiddleware = (req) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
     console.error('Authorization header missing');
-    return null;
+    return req;
   }
 
   const token = authHeader.split(' ')[1];
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
+    const user = jwt.verify(token, jwtSecret, { maxAge: '2h' });
     console.log('Decoded User:', user);
-    return user.data;
+    return req.user = user.data;
   } catch (err) {
     console.error('Invalid token:', err.message);
-    return null;
+    return req;
   }
 };
 
 const signToken = ({ _id, username }) => {
   const payload = { _id, username };
-  return jwt.sign({ data: payload }, process.env.JWT_SECRET, { expiresIn: '2h' });
+  return jwt.sign({ data: payload }, jwtSecret, { expiresIn: '2h' });
 };
 
 module.exports = { authMiddleware, signToken };

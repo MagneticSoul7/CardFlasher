@@ -11,5 +11,5 @@ module.exports = {
     ...userResolver.Mutation,
     ...deckResolver.Mutation,
     ...cardResolver.Mutation,
-  },
+  }
 };
