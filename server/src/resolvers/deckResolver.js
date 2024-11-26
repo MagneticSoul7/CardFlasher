@@ -5,6 +5,7 @@ const User = require('../models/User');
 module.exports = {
   Query: {
     getDecks: async (_, __, { user }) => {
+      console.log('User:', user);
       if (!user) {
         throw new Error('Not authenticated');
       }

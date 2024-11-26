@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET || "mysecretkey";
 
-const authMiddleware = (req) => {
+const authMiddleware = ({req}) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -13,7 +13,8 @@ const authMiddleware = (req) => {
   try {
     const user = jwt.verify(token, jwtSecret, { maxAge: '2h' });
     console.log('Decoded User:', user);
-    return req.user = user.data;
+    req.user = user.data;
+    return req;
   } catch (err) {
     console.error('Invalid token:', err.message);
     return req;
