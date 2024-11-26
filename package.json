@@ -11,7 +11,7 @@
     "start-client": "npm --prefix client start",
     "dev-server": "npm --prefix server run dev",
     "dev-client": "npm --prefix client run start",
-    "install": "cd server && npm install --legacy-peer-deps && cd ../client && npm install --legacy-peer-deps",
+    "install": "cd server && npm install && cd ../client && npm install",
     "render-build":"npm install && npm run build",
     "build": "cd client && npm run build"
   },
