@@ -1,3 +1,8 @@
+const fs = require('fs');
+
+const path = require('path');
+
+
 require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
@@ -30,6 +35,7 @@ const server = new ApolloServer({
 
 // Start Apollo Server
 server.start().then(() => {
+  app.use(express.static(path.join(__dirname, '../../client/build')));
   server.applyMiddleware({ app });
   app.listen(PORT, () => {
     console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
