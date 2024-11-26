@@ -13,9 +13,12 @@ const Navbar = () => {
     // Redirect to login page
     navigate('/login');
   };
+  const loggedIn = true;
 
   return (
     <nav className="navbar">
+      { loggedIn ? (
+        <>
       {/* Left-aligned app title */}
       <div className="navbar-title">
         Card Flasher
@@ -43,6 +46,12 @@ const Navbar = () => {
           Logout
         </button>
       </div>
+      </>
+      ) : (
+        <Link to="/login" className="navbar-link">
+          Login
+        </Link>
+      )}
     </nav>
   );
 };
