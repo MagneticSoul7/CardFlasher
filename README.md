@@ -20,7 +20,7 @@ This application lets a user create an online profile and login where they can c
 11. License <br>
 12. Deployed Link <br> 
 
-## Technologies Used - TBA
+## Technologies Used
 
 |        |  | 
 | ------------- |:-------------:| 
@@ -74,19 +74,9 @@ To use this website, click on the deployed link at the bottom of this ReadMe fil
 
 ## Wireframe
 
-./images-wireframe/wireframe1.png 
-
-./images-wireframe/wireframe2.png 
-
-
 ![alt text](images-wireframe/wireframe1.png)
 
 ![alt text](images-wireframe/wireframe2.png)
-
-
-
-
-
 
 
 ## Contributors/Author Info
