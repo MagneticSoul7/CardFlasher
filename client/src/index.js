@@ -1,36 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import './styles/index.css';
+import LoginPage from "./pages/LoginPage";
+import ProfileCreationPage from "./pages/ProfileCreationPage";
+import HomePage from "./pages/HomePage";
+import DeckCreationPage from "./pages/DeckCreationPage";
+import DeckViewPage from "./pages/DeckViewPage";
+import ContactPage from "./pages/ContactPage";
+import AboutPage from "./pages/AboutPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./styles/index.css";
 
-// Create an HTTP link to the GraphQL server
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql', // Replace with your server URL
-});
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { index: true, element: <LoginPage /> },
+      { path: "/Home", element: <HomePage /> },
+      { path: "/CreateDeck", element: <DeckCreationPage /> },
+      { path: "/ViewDeck/:deckId", element: <DeckViewPage /> },
+      { path: "/About", element: <AboutPage /> },
+      { path: "/Contact", element: <ContactPage /> },
+      { path: "/Login", element: <LoginPage /> },
+      { path: "*", element: <LoginPage /> },
+      { path: "/CreateProfile", element: <ProfileCreationPage /> },
+    ],
+  },
+]);
 
-// Set the Authorization header with the user's token
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token'); // Get token from localStorage
-  console.log('Token in localStorage:', token); // Debugging log
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '', // Add token if available
-    },
-  };
-});
-
-// Initialize Apollo Client with the authLink and httpLink
-const client = new ApolloClient({
-  link: authLink.concat(httpLink), // Combine authLink and httpLink
-  cache: new InMemoryCache(), // Cache for Apollo Client
-});
-
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root')
-);
+const root = document.getElementById("root");
+if (root) {
+  ReactDOM.createRoot(root).render(
+    <RouterProvider router={router} />,
+    root
+  );
+}
+// ReactDOM.render(
+//   <RouterProvider router={router}/>,
+//   document.getElementById("root")
+// );

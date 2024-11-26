@@ -1,11 +1,9 @@
 import React from 'react';
-import Navbar from '../components/Navbar'; // Adjust path if necessary
 import '../styles/ContactPage.css';
 
 const ContactPage = () => {
   return (
     <div className="page-container">
-      <Navbar />
       <div className="contact-page-content">
         <h1>Contact Us</h1>
         <p>
