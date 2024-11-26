@@ -5,29 +5,12 @@ Online Flash card generator for studying.
 
 This application lets a user create an online profile and login where they can create flashcard decks for studying. They can add as many cards as they want and write whatever they want on the fronts and backs of the cards, and they can also make multiple decks with different deck names. The application also has a feature where the user can click on a "shuffle" button to randomize the order of the cards in a deck for better studying. They can click "shuffle" as many times as they want to keep re-randomizing the order of the cards. The different flashcard decks will be saved to the user's profile so that the user can logout and then log back in at any time to see their decks again or study again.
 
-## Technologies Used - TBA
-
-|        |  | 
-| ------------- |:-------------:| 
-| HTML          |  | 
-| CSS           |  | 
-| Markdown      |  |
-| VS Code       |  |   
-| Git           |  |  
-| Github        |  |
-| CreateReact   |  |
-| Node.js       |  |
-| API           |  |
-| JSON          |  |
-|               |  |
-
-
 ## Table of Contents: 
 
 1. Title <br>
 2. Description <br>
-3. Technologies Used <br>
-4. Table of Contents <br>
+3. Table of Contents <br>
+4. Technologies Used <br>
 5. User Story <br>
 6. Acceptance Criteria <br>
 7. Installation <br>
@@ -35,9 +18,29 @@ This application lets a user create an online profile and login where they can c
 9. Wireframe <br>
 10. Contributors/Author Info <br>
 11. License <br>
-12. Deployed Link <br>
+12. Deployed Link <br> 
 
-## User Story - TBA (To Be Added)
+## Technologies Used - TBA
+
+|        |  | 
+| ------------- |:-------------:| 
+| HTML                |  | 
+| CSS                 |  | 
+| Markdown            |  |
+| VS Code             |  |   
+| Git                 |  |  
+| Github              |  |
+| CreateReact         |  |
+| React Router        |  |
+| React.js            |  |
+| Node.js             |  |
+| Express.js          |  |
+| Axious or Fetch API |  |
+| JSON                |  |
+| Render              |  |
+|________________________|
+
+## User Story 
 
 AS A USER, 
 <br>
@@ -59,8 +62,7 @@ SO THAT I can log out and log back into my profile whenever I want and use my cu
 
    - **Given**: A user navigates to the "Create Deck" page,
    - **When**: the user inputs their deck's name and what they'd like to write on the front and back of each card, as many cards as they want in their deck,
-   - **Then**: they should be able to save it to their profile, shuffle it, and use it to study.
-
+   - **Then**: they should be able to save it to their profile, shuffle it, and use it to study. 
 
 ## Installation 
 
@@ -72,7 +74,20 @@ To use this website, click on the deployed link at the bottom of this ReadMe fil
 
 ## Wireframe
 
- 
+./images-wireframe/wireframe1.png 
+
+./images-wireframe/wireframe2.png 
+
+
+![alt text](images-wireframe/wireframe1.png)
+
+![alt text](images-wireframe/wireframe2.png)
+
+
+
+
+
+
 
 ## Contributors/Author Info
 
@@ -86,5 +101,5 @@ MIT License.
 
 ## Deployed Link
 
-TBA - To Be Added. 
+
 
