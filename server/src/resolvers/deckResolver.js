@@ -1,6 +1,5 @@
 const Deck = require('../models/Deck');
-const Card = require('../models/card');
-const User = require('../models/User');
+const Card = require('../models/Card');
 
 module.exports = {
   Query: {
