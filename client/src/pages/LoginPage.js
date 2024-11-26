@@ -43,7 +43,7 @@ const LoginPage = () => {
         <button className="login-button" type="submit">Login</button>
       </form>
       <div className="create-profile-link">
-        <Link to="/create-profile">Create New Profile</Link>
+        <Link to="/CreateProfile">Create New Profile</Link>
       </div>
     </div>
   );
