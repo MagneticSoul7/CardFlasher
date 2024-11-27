@@ -1,5 +1,5 @@
 # Card Flasher
-Online Flash card generator for studying. 
+Online flashcard generator for studying. 
 
 ## Description 
 
