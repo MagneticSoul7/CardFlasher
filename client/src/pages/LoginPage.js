@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../graphql/mutations';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import authService from '../utils/Auth';
 import '../styles/LoginPage.css';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [formState, setFormState] = useState({ username: '', password: '' });
   const [login] = useMutation(LOGIN_USER);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const { data } = await login({ variables: { ...formState } });
-      localStorage.setItem('token', data.login.token);
-      navigate('/home');
+      authService.login(data.login.token, navigate);
+      // navigate('/home');
     } catch (err) {
       console.error(err);
     }

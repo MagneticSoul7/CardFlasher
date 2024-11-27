@@ -3,11 +3,21 @@ import { useMutation } from '@apollo/client';
 import { CREATE_DECK, ADD_CARD } from '../graphql/mutations';
 import { GET_DECKS } from '../graphql/queries';
 import { useNavigate } from 'react-router-dom';
+// import authService from '../utils/Auth';
 import '../styles/DeckCreationPage.css';
 
 const DeckCreationPage = () => {
   const [title, setTitle] = useState('');
   const [cards, setCards] = useState([{ front: '', back: '' }]);
+  const [addCard] = useMutation(ADD_CARD);
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (!authService.loggedIn()) {
+  //     navigate('/login'); // Redirect to login if not authenticated
+  //   }
+  // }, [navigate]);
+
   const [createDeck] = useMutation(CREATE_DECK, {
     update(cache, { data: { createDeck } }) {
       const existingDecks = cache.readQuery({ query: GET_DECKS });
@@ -21,9 +31,7 @@ const DeckCreationPage = () => {
       }
     },
   });
-  const [addCard] = useMutation(ADD_CARD);
-  const navigate = useNavigate();
-
+  
   const handleAddCard = () => {
     setCards([...cards, { front: '', back: '' }]);
   };
