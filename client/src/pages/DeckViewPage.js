@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { GET_DECK } from '../graphql/queries';
 import { shuffleArray } from '../utils/shuffle';
 import '../styles/DeckViewPage.css';
+// import authService from '../utils/Auth';
+
 
 const DeckViewPage = () => {
   const { deckId } = useParams();
@@ -13,6 +15,12 @@ const DeckViewPage = () => {
   const [cards, setCards] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+
+  // useEffect(() => {
+  //   if (!authService.loggedIn()) {
+  //     navigate('/login'); // Redirect to login if not authenticated
+  //   }
+  // }, [navigate]);
 
   // Initialize cards state once data is loaded
   useEffect(() => {

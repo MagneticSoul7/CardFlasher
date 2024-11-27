@@ -2,18 +2,15 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
 import Logo from '../Card_Flasher_Logo.svg'; // Import the logo
-
+import authService from '../utils/Auth';
 
 const Navbar = () => {
   const navigate = useNavigate();
-
   const handleLogout = () => {
-    // Clear local storage or any authentication tokens
-    localStorage.removeItem('token');
-    // Redirect to login page
-    navigate('/login');
+    authService.logout(navigate);
   };
-  const loggedIn = true;
+
+  const loggedIn = authService.loggedIn();
 
   return (
     <nav className="navbar">

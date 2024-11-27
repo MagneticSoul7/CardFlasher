@@ -11,7 +11,7 @@ const authMiddleware = ({req}) => {
 
   const token = authHeader.split(' ')[1];
   try {
-    const user = jwt.verify(token, jwtSecret, { maxAge: '2h' });
+    const user = jwt.verify(token, jwtSecret, { maxAge: '3000h' });
     console.log('Decoded User:', user);
     req.user = user.data;
     return req;
@@ -23,7 +23,7 @@ const authMiddleware = ({req}) => {
 
 const signToken = ({ _id, username }) => {
   const payload = { _id, username };
-  return jwt.sign({ data: payload }, jwtSecret, { expiresIn: '2h' });
+  return jwt.sign({ data: payload }, jwtSecret, { expiresIn: '3000h' });
 };
 
 module.exports = { authMiddleware, signToken };
